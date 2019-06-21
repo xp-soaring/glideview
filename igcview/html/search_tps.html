@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>IGCview Search TP's</title>
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+
+function close_window()
+  {
+    self.close();
+  }
+  
+// write search form onto top frame of window
+function write_tp_search_frame()
+  {
+    var s = "";
+    s = s + "<html><head></head><body><font face='Helvetica'>";
+    s = s + "<h3>IGCview turnpoint search ";
+    s = s + "<font size='2'>(<a href='javascript:parent.close_window()'>close this window</a>)</font>";
+    s = s + "</h3>";
+    s = s + "<p>IGCview will search the short names (trigraphs) ";
+    s = s + "and long names for any TP's containing your search string.</p>";
+    s = s + " <form name='search_form' onSubmit='parent.search_tps(); return false;'>";
+    s = s + "  <table>";
+    s = s + "    <tr>";
+    s = s + "      <td>Search:</td>";
+    s = s + "      <td><input type='text' name='search_text'></td>";
+    s = s + "      <td><input type='submit' value='Search'></td>";
+    s = s + "    <tr>";
+    s = s + "  </table>";
+    s = s + " </form>";
+    s = s + "<p><small>When your results appear below, click the short name (trigraph) of the TP you wanted, ";
+    s = s + "or click the 'close window' link to cancel.</small></p>";
+    s = s + "</font></body></html>";
+    tp_search_frame.document.open();
+    tp_search_frame.document.write(s);
+    tp_search_frame.document.close();
+    tp_results_frame.document.open();
+    tp_results_frame.document.write("<font face='Helvetica'>&lt;search results will appear here&gt;</font>");
+    tp_results_frame.document.close();
+    
+  }
+
+function search_tps()
+  {
+    var s;
+    s = opener.search_tps(tp_search_frame.search_form.search_text.value);
+    tp_results_frame.document.open();
+    tp_results_frame.document.write(s);
+    tp_results_frame.document.close();
+  }
+
+function select_tp(tp_num)
+  {
+    opener.select_tp(tp_num);
+  }
+//-->
+</script>
+
+</head>
+<!-- write_tp_search_frame() will draw the search box in the top frame -->
+<!-- data written to tp_results_frame will include calls to parent.select_tp(tp_num) -->
+<frameset rows="220,*" onLoad="write_tp_search_frame()">
+  <frame name="tp_search_frame" frameborder="no" src="about:blank">
+  <frame name="tp_results_frame" frameborder="no" src="about:blank">
+</frameset>
+</html>

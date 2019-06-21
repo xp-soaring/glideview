@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>IGCview Files Help</title>
+<SCRIPT LANGUAGE="JavaScript">
+
+</SCRIPT>
+</HEAD>
+<body>
+<font face="Helvetica">
+
+<h2><IMG SRC="../images/sask21-3.jpg" border="0">IGCview Files Help</h2>
+
+<p>These notes explain how to open and save your log files.</p>
+
+<p>The left-side file buttons which currently appear are:
+<table border="2" cellpadding="4">
+<tr><td valign="top"><img src="../images/help_button.gif"/></td>
+    <td><b>Files Help</b>. That button shows this help information.</td></tr>
+<tr><td valign="top"><img src="../images/url_file_button.gif"/></td>
+    <td><b>Load IGC File From the Web.</b>  Some IGC files are available on the IGCview web site,
+      and are also installed on your PC with the rest of the application when you've done
+      a local install.  Clicking on this button will bring up a menu of IGC files, and one click
+      will load each tracklog file into IGCview.
+      This button should load the pre-prepared files without any fuss, whether you've
+      accessed IGCview via the website or are running it locally.  This button is the
+      minimum hassle way of loading an IGC file, but does not give you the
+      'browse the disk' view that you'd expect (see next option below). One day, we should be able to
+      make IGCview easily available to competition organizers, so that the competitors' flight logs
+      are browsable right from the web.  In the meantime, you're stuck with my few lousy flights.
+    </td></tr>
+<tr><td valign="top"><img src="../images/local_file_button.gif"/></td>
+    <td><b>Load IGC File From your PC</b>.
+    This is the usual 'open file' function you would expect of any IGC-file viewing application, which
+    will prompt you with the usual file dialog shown below:<br/>
+    <img src="images/file_open.jpg"/><br/>
+    Unlike other packages, IGCview can both be run from a website, and load IGC files directly from
+    the internet (via the
+    <img src="../images/url_file_button.gif"/> button listed above).  The downside is that to load
+    local IGC files from your PC, some simple setup must be done to give IGCview permission.  If this isn't
+    done, then you'll get the security error displayed on <a href="security_error.html">this page</a>.
+    Instructions on how to permit IGCview to access your local files are given in the
+    <a href="install/install.html">installation guide</a>.
+    </td></tr>
+<tr><td valign="top"><img src="../images/save_file_button.gif"/></td>
+    <td><b>Save IGC File</b>.  The most common use for IGCview is to <i>read</i> IGC files.
+    However, there are two circumstances in which you might want to <i>save</i> the current
+    primary IGC file:
+    <ol>
+      <li>To save the IGC trace <i>including the currently defined task</i>.  IGC files can contain
+          both the tracklog and the declared task, but most often no task is included.  If you
+          define the task using IGCview, and then re-save the IGC file, then next time you load the file
+          the task will be conveniently loaded also.  The 'B21' file in the 'load from web' example has
+          the task included in this way.</li>
+      <li>To convert a file from 'GARDOWN' format.  If you extract your trace from a Garmin logger using
+      the 'gardown' utility, IGCview can read the resultant logfile directly.  You can then save it
+      as an IGC file.  This capability is less needed now the 'G7toWin' utility is available, which will
+      generate an IGC file directly from the Garmin GPS.</li>
+    </ol>
+    Note that saving IGC files has the same security requirements as the
+    <img src="../images/local_file_button.gif"/> button above.
+    </td></tr>
+<tr><td valign="top"><img src="../images/select_tracks.gif"/></td>
+    <td><b>Select Tracks.</b>  This button allows you to select among the multiple IGC files
+    you have loaded, presenting the following dialog:<br/>
+    <img src="images/select_tracks.jpg"/><br>
+    Note that IGCview allows <i>one</i> loaded log to be selected as primary, and <i>multiple</i>
+    loaded logs to be selected as secondary.  An unselected log will not be displayed,
+    but will remain on the list for later selection if desired. All selected logs will be raced
+    together in the 'replay' mode, while 'flight data'
+    <img src="../images/flight_data_button.gif"/> will compare the primary log with the
+    <i>average</i> of the secondaries.
+    </td></tr>
+<tr><td valign="top"><img src="../images/clear_tracks.gif"/></td>
+    <td><b>Clear Tracks</b>.</td></tr>
+</table>
+
+</font>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>IGCview Task Help</title>
+<SCRIPT LANGUAGE="JavaScript">
+
+</SCRIPT>
+</HEAD>
+<body>
+<font face="Helvetica">
+
+<h2><IMG SRC="../images/sask21-3.jpg" border="0">IGCview Task Help
+<font size="2">(<a href="javascript:self.close()">close this window</a>)</font></h2>
+
+<p>These notes explain how to define and adjust your task.  
+You can define the task on a traditional-looking form by clicking the 
+<img src="../images/task_data_button.gif"/> button, or you can draw the task on the map by first clicking
+the
+<img src="../images/define_task.gif"/> button and then dragging the mouse to each TP in turn.  You edit the task
+by dragging the corners and midpoints around.  Clicking (without dragging) on a turnpoint will pop-up
+a window with the details of that turnpoint.
+</p>
+
+<p>For efficiency reasons, IGCview will only re-calculate the flight data for the loaded logs in relation to
+the current task (e.g. start time, turnpoint validation, leg speeds, etc) <b>when you select either
+flight data <img src="../images/flight_data_button.gif"/> or task data
+<img src="../images/task_data_button.gif"/></b>.
+
+<p>The left-side task buttons which currently appear are:
+<table border="2" cellpadding="4">
+<tr><td valign="top"><img src="../images/help_button.gif"/></td>
+    <td><b>Task Help</b>. That button shows this help information.</td></tr>
+<tr><td valign="top"><img src="../images/task_data_button.gif"/></td>
+    <td><b>Task data.</b><br/>
+        <p>If you have currently have no task defined, the 'task information window' will be mostly
+        empty (except for the headings), as shown below.</p>
+        <img src="images/task_data_new.jpg"/>
+        <p>To build a task, click the 'insert' link, and you will be prompted to 'search' for a new turnpoint,
+        as shown in the picture below.</p> 
+        <img src="images/tp_search.jpg"/>
+        <p>After clicking the 'HUF' link, that turnpoint will be added as a startpoint for the task.  Similarly,
+        additional turnpoints (in this example NEEB, FLYNGM, CTRSVN and finally HUF again) can be 'inserted' into the
+        task, and the task window will look like the picture below.</p>
+        <img src="images/task_data.jpg"/>
+        <p>To define area turnpoints, the additional fields are used as follows:
+        <table border="0">
+        <tr>
+        <td><img src="images/area.gif" alt="area"></td>
+        <td>
+        <ol>
+          <li><b>Min dist (a).</b> Minimum distance.  To be in the defined area you must be <i>further</i>
+               from the TP than this minimum distance.</li>
+          <li><b>Max dist (b).</b> Maximum distance.  To be in the defined area you must be <i>no further</i>
+               from the TP than this maximum distance.</li>
+          <li><b>Brg1 (d).</b> Bearing 1.  To be in the defined area your bearing to the TP must be
+               between bearing1 and bearing2.  IGCview defines the area as being anticlockwise (with
+               respect to the TP, from bearing1 to bearing2.</li>
+          <li><b>Brg2 (c).</b> Bearing 2.  See bearing1.</li>
+        </ol>
+        In the USA, home of the practical, all areas are defined as being circular, in which case
+         Min Dist, Brg1 and Brg2 should all
+        be zero, and Max Dist is the area radius.</p>
+        </td>
+        </tr>
+        </table>
+        <p>Click the 'save' button and you've completed the definition of the new task.</p>
+        <p>The task can also be drawn directly on the map, by following the instructions below.</p>
+    </td></tr>
+<tr><td valign="top"><img src="../images/define_task.gif"/></td>
+    <td><b>Draw Task.</b>  Here's a sample walk-through defining and altering a task.
+        <ol>
+         <li><b>The first leg.</b> Click the <img src="../images/define_task.gif"/> button, then click your start
+             point on the map and drag towards the next turnpoint on the task.  In the
+             example below our start turnpoint is HUF and we're dragging towards NEEB.  Note that
+             the task TP's and distances will update on the left side of the page 
+             as you drag the mouse:<br/>
+             <img src="images/defining_task1.jpg"/>
+             <p>When you've dragged the mouse over to NEEB, release the mouse button, and a task 
+             HUF - NEEB will be drawn.<p>
+             <p>If you <b>click</b> on any turnpoint in the task, the task info window will open, as by
+             clicking the <img src="../images/task_data_button.gif"/> button as described above.</p>
+             <p>If you <b>drag</b> the mouse from a task turnpoint, that corner of the task will be dragged to
+             a new TP, or if you drag the last TP in the task, then the task will be extended to a new TP.</p>
+             </li>
+         <li><b>Adding further legs.</b> The full task (HUF - NEEB - WILDCT - HUF) has been defined by
+             clicking and <b>dragging</b> from
+             HUF to NEEB, then clicking on NEEB and dragging to WILDCT, then WILDCT to HUF.  The
+             task summary on the left side of the page has updated to show a total task length of
+             83.3 km:<br/>
+             <img src="images/defining_task2.jpg"/></li>
+         <li><b>Changing a turnpoint.</b>  To change the WILDCT turnpoint on the task to CTRSVN, 
+             click and drag the corner of the task at WILDCT over to the CTRSVN turnpoint on the map.
+             IGCview will 'snap' to the nearest turnpoint when you release the mouse
+             button. (To do: I'll add a button on the task menu that will allow you to drag to any
+             lat/long and create a new turnpoint when you release the mouse.):<br/>
+             <img src="images/defining_task3.jpg"/></li>
+         <li><b>Inserting and deleting turnpoints.</b>  The center point of each task leg (show by
+             the little arrow at the leg midpoint) is draggable just like the real turnpoints on each
+             corner of the task.  To insert FLYNGM as a new turnpoint between the NEED and CTRSVN
+             turnpoints on the
+             task, drag the midpoint arrow of the first leg over to the FLYNGM turnpoint on the map.
+             To delete a turnpoint in the task, drag that corner of the task to the preceding or following
+             turnpoint in the task, e.g. to delete FLYNGM, you could drag it to either NEEB or CTRSVN.<br/>
+             <img src="images/defining_task4.jpg"/></li>
+         <li><b>The final task looks like this.</b>  You will get a printable task summary by clicking
+             the <img src="../images/task_data_button.gif"/> button.
+             <img src="images/defining_task5.jpg"/></li>
+        </ol>
+    </td></tr>
+<tr><td valign="top"><img src="../images/clear_task.gif"/></td>
+    <td><b>Clear Task.</b>  This button cancels the primary task.</td></tr>
+</table>
+
+</font>
+</body>
+</html>

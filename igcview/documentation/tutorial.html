@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>IGCview for Dummies</title>
+<SCRIPT LANGUAGE="JavaScript">
+
+</SCRIPT>
+</HEAD>
+<body>
+<font face="Helvetica">
+
+<h2><IMG SRC="../images/sask21-3.jpg" border="0">IGCview for Dummies</h2>
+<p>This page is intended to guide you through the process of using IGCview in
+  a series of steps, loading multiple IGC files and reviewing and comparing them.</p>
+
+<p>There is additional help, in the <a href="help.html">usage help</a> file, and a guide to install
+IGCview locally on your PC the <a href="install/install.html">installation notes</a>.</p>
+
+<p>IGCview can be run directly from the 
+<a href="http://www.forsterlewis.com/soaring/igcview/igcview.html">website</a> or by
+copying the 
+<a href="http://www.forsterlewis.com/soaring/igcview/igcview.zip">program files</a>
+onto your PC and clicking on the file 'igcview.html'.  When you have launched the program,
+your browser (Internet Explorer or Netscape) will show something like the screenshot in
+step 1.</p>
+
+<h3>Step 1.  Starting IGCview</h3>
+<p>Click on igcview.html in the directory you've installed IGCview in, or follow the link on the website
+(<a href="http://www.forsterlewis.com/soaring/igcview/igcview.html">here</a>).
+</p>
+<p>(These screenshots have been resized to fit within this tutorial)</p>
+<img src="images/startup.jpg" alt="IGCview startup screen"/>
+<p>The main rectangular area of the page is the 'map' view, and above it the fixed top row
+ of buttons are the 'main menu' items, in general each will load a new
+set of buttons down the far left side of the page.  On startup, IGCview loads with the
+'<i>Files</i>' menu items down the far left side of the page. Another fixed set of buttons is
+immediately to the left of the map area, allowing you to zoom and pan around the map.</p>
+<p>Assuming you have IGCview set up right for your area (see
+<a href="#preferences">preferences</a> to set your startup turnpoints and map area), the next
+thing you'll do is load some IGC files for analysis.  For this tutorial you can use
+the IGCview defaults, so maybe worry about that later. To load your IGC files see Step 2.</p>
+ 
+<h3>Step 2.  Loading IGC files</h3>
+<p>If you want to look at sample traces right away, click on the 
+'load file from web'<img src="../images/url_file_button.gif" alt="Load IGC file from web"> button, click
+'UK files', and click 'B21' first and then '729'.  Note that the B21 file contains a task
+in addition to the flight log. The screen should now look something
+like that below (shrunk to fit this page). Go to Step 3.</p>
+<img src="images/test_files.jpg" alt="IGCview after loading test files"/>
+
+<p>If you want to load your own IGC files, then for a detailed explanation of each 
+of the '<i>Files</i>' buttons, see
+<a href="help_files.html">the 'files' help file</a>.</p>
+
+<h3>Step 3.  Zooming in and out</h3>
+<p>To 'zoom in' to an area on the map, the easiest way is to click and hold the left mouse
+button on the top-left corner of the area you want to magnify, and <b>drag the mouse down and
+to the right</b> until a box is drawn around the area you want to zoom.  If you want to zoom in to
+the top turnpoint in the sample files, then as you drag the mouse the screen will look
+something like the picture below.</p>
+
+<img src="images/zoom_box.jpg" alt="Zoom box"/>
+
+<p>When you release the mouse button, IGCview will snap to a new view with the area you've
+selected filling the screen.  For the example above, the screen will now look something like
+the screenshot below.</p>
+
+<img src="images/zoomed_in.jpg" alt="View after zoom in"/>
+
+<p>To zoom back out, click the 'zoom out'<img src="../images/zoom_out.gif" alt="Zoom out button">
+button.  With the test flights loaded, you can now compare the performance of the
+two pilots.  Go to Step 4.</p>
+
+<p>For a detailed explanation of each 
+of the zoom buttons, see
+<a href="help.html">the main usage help file</a>.</p>
+
+<h3>Step 4.  Analyzing and comparing the traces</h3>
+
+<p>With one or more flights loaded, <i>and a task defined</i>, you can get a comparative analysis of
+speeds, climb rates and times taken on a per-leg and total task basis by clicking on the
+'flight data' button<img src="../images/flight_data_button.gif">.</p>
+
+<img src="images/flight_data.jpg" alt="Flight data"/>
+
+<h3>Step 5.  Reviewing the barograph trace</h3>
+<p>Scroll down on the main page, and you'll see the IGCgraph applet which can display the barograph trace.  The trace will
+display when you click the 'alt view' button<img src="../images/setalt.gif">.</p>
+<img src="images/altitude_view.jpg" alt="Barograph chart"/>
+<p>Note that the horizintal axis can show either time or distance, by clicking the
+<img src="../images/settime.gif"> and <img src="../images/setdist.gif">
+buttons respectively.</p>
+<img src="images/alt_distance.jpg" alt="Barograph with distance on X axis"/>
+<h3>Step 6.  Reviewing your climb histogram</h3>
+<p>The vertical access can show aspects of the flight other than your altitude, for example your climb rate or
+cruise speed. Another type of chart to display is your 'climb rate histogram'
+(<img src="../images/setcp.gif">), which shows the proportion of time
+spent climbing at different rates.  The vertical axis then shows each 10% of time spend, while the horizontal axis
+is in knots (~100fps) or m/s depending on the units chosen in the tools...preferences settings.  In the example
+below, the primary trace is shown in blue, with the secondary trace for comparison shown as the green background.
+The blue line shows that 30% of the thermalling time was bewteen 2 and 2.5 knots, 20% between 3 and 3.5 knots, and
+the average climb rate for the primary trace was about 2.6 knots (this average is also seen on the flight data page).
+By comparison, the other trace has a significantly better climb profile.</p>
+<img src="images/climb_histogram.jpg" alt="Climb rate histogram"/>
+<h3>Step 7.  Replaying the flights ("maggot racing")</h3>
+The replay button<img src="../images/replay_button.gif"> at the top of the page will show the replay options down the
+left side of the page. A 'maggot race' is most easily started by clicking the 'synchronized start' button
+<img src="../images/synchro_start.gif">, and can be stopped with the 'stop' button
+<img src="../images/race_stop.gif">.</p>
+<img src="images/replay.jpg" alt="Replay menu"/>
+<h3>Step 8.  Miscellaneous tools</h3>
+<p>After clicking the 'tools' button<img src="../images/tools_button.gif">, many useful options will appear down the
+left side of the page.  Hover the mouse over each option, or click the help button
+<img src="../images/help_button.gif"> to get information on what these options do.</p>
+<img src="images/tools.jpg" alt="Tools menu"/>
+<h3><a name="preferences"></a>Step 9.  Setting and saving your configuration preferences</h3>
+<img src="images/preferences.jpg" alt="IGCview set preferences"/>
+
+
+<p>To use IGCview, the buttons across the top of the map panel (the green box) in
+general cause another set of buttons to appear down the left-hand side
+of the page.  There is <emphasis>alt</emphasis> text associated with each button
+so if you hover the mouse over the button for a while an explanation of its function
+will appear.</p>
+
+<p>The top buttons currently are:
+<table border="2" cellpadding="4">
+<tr><td valign="top"><img src="../images/file_button.gif"/></td>
+    <td>The <emphasis>File</emphasis> button.  This gives you options to load a file
+    from the web or from your local PC.  If you have just launched IGCview
+    from a web site, loading .igc files from the web using the 
+    <img src="../images/url_file_button.gif"/> button should be straightforward.
+    If you want to load a file from you local PC you will have to read the
+    installation notes. As IGCview can load .igc or gardown tracklog
+    files, there is also a save file option, which saves the current primary log in the
+    .igc format, including the current task.  This is a convenient way to convert your
+    gardown (from Garmin GPS) files to .igc, or to embed a task into an existing
+    .igc file.</td></tr>
+<tr><td valign="top"><img src="../images/zoom_button.gif"/></td>
+    <td>This presents a number of buttons to zoom-in, zoom-out, zoom-to-task, or
+    to zoom to the area covered by the current primary task.  Note that in general
+    zooming-in is most easily done by dragging the mouse on the map to open up
+    a box, which IGCview will zoom to fit the screen.</td></tr>
+<tr><td valign="top"><img src="../images/replay_button.gif"/></td>
+    <td><This is the <emphasis>Replay</emphasis> button, which allows you to 
+    maggot-race the loaded logs.  To start the replay running, select one of the
+    top two buttons on the left-hand side for either a real-time start or
+    synchronized start (all logs are synchronized to a common start time). Then
+    you can pause, stop, speed up the race with the other buttons.  Sometimes logs
+    have a long preamble where the pilot started his logger early in the day.  In this
+    case it is a good idea to speed up the replay by hitting the <emphasis>forward</emphasis>
+    button a few times (you will see the clock speed up) and then pause to reset the
+    replay speed when the glider finally gets going.</td></tr>
+<tr><td valign="top"><img src="../images/flight_data_button.gif"></td>
+    <td>This the the <emphasis>Flight Data</emphasis> button.  It will open up a page
+    with a quantative analysis of the logs loaded.  Note that IGCview distinguishes
+    between the <emphasis>one primary</emphasis> and (possible multiple)
+    <emphasis>secondary</emphasis> logs.  IGCview will compare the primary flight
+    performance with the average of the secondaries.  If you only load two flights,
+    then you get a straightforward comparison between the two.  If you have many flights
+    loaded, you can use the 'select tracks' button <img src="../images/select_tracks.gif"/>
+    to choose between them, e.g. to select a new primary.</td></tr>
+<tr><td valign="top"><img src="../images/tools_button.gif"/></td>
+    <td>This it the <emphasis>Tools</emphasis> which presents a variety of generally
+    useful buttons down the left-hand side.</td></tr>
+</table>
+
+</font>
+</body>
+</html>

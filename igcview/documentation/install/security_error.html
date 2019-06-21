@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>IGCview security error</title>
+</head>
+<body>
+<font face="Helvetica">
+<H1><IMG SRC="../../images/sask21-3.jpg">&nbsp;IGCview - a security error has occurred!!!</H1>
+
+<p>You have attempted to load or save a file on your PC, without your browser having been
+configured with the appropriate permissions.<p>
+
+<p>The fix depends on whether you have IGCview installed locally on your
+PC or whether you are accessing it over the internet:
+
+<table border="2" cellpadding="6" width="80%" align="center">
+
+<tr><td>
+<p>If you want to access local files and you have IGCview also loaded locally, then
+you will need to add the directory containing igcview.html to an
+environment variable called CLASSPATH.  A
+description of how to do this in contained with the
+<a href="install.html#local">local</a> section of the IGCview installation notes.</p>
+</td></tr>
+
+<tr><td>
+<p>If you are accessing IGCview via the internet but want to load or save log files held
+locally on your PC (i.e. your own log files), then you will need to define the IGCview web
+site in your browser as a <emphasis>trusted site</emphasis>.  Instructions on how
+to do this are contained within the <a href="install.html#web">internet</a> section
+of the IGCview installation notes.
+</td></tr>
+</table>
+
+<p>I hope the above notes help.  Frankly, accessing local files from within a web
+application such as IGCview is an area of little standardization between platforms
+and browsers.  IGCview is written to use <emphasis>no</emphasis> platform-specific
+functionality, but configuration of security settings is something done very
+much at the system level, outside of the application itself.<p>
+
+<p>If you learn anything useful about this stuff, feel free to update this page and
+send me the improved version...
+
+<p>Ian Forster-Lewis</p>
+</font>
+</body>
+</html>

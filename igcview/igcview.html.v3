@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>IGCview - Soaring GPS IGC track log analysis program - by Ian Forster-Lewis</title>
+</head>
+<frameset COLS="80,*" BORDER="0" FRAMESPACING="0" frameborder="no">
+	<frameset  ROWS="80,*"BORDER="0" FRAMESPACING="0" frameborder="no">
+		<frame NAME="left_top_frame" 
+			MARGINWIDTH="2" MARGINHEIGHT="2" SCROLLING="NONE" FRAMEBORDER="NO"
+			src="left_top.html">
+		<frame name="left_frame" src="files.html">
+	</frameset>
+	<frame name="right_frame" src="right_frame.html">
+</frameset>
+</html>

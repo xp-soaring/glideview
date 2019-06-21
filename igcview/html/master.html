@@ -1,0 +1,71 @@
+<head>
+<title>Master</title>
+
+<script>
+
+//***********************************************************************************************************//
+//**********   Code to handle display of Task info window                                        ************//
+//***********************************************************************************************************//
+
+var task_window; // handle to window showing task information
+
+function igc_show_task_info()
+  {
+    task_window = null;
+    task_window = window.open("task_info.html","task_info", "width=670,height=480,resizable=yes,scrollbars=yes");
+    if (task_window.opener==null) task_window.opener = self;
+  }
+
+// load_task_info() is called by the task info pop-up window when it opens, to load the data to appear in that window
+
+function load_task_info()
+  {
+    load_task_info_delayed(1); // a loop delay to avoid the fact that the onLoad event fires in the popup before
+                               // the variable tp_window is assigned a handle to it, which causes an error
+  }
+
+function load_task_info_delayed(i) // i is loop counter which is incremented each timeout
+  {
+    if (i==10)
+      {
+        alert("IGCview error: task_window is null");
+        return;
+      }
+    if (task_window==null || task_window.document==null) // popup not fully open yet...
+      {
+        i++;
+        var next_call = 'load_task_info_delayed('+i+')';
+        setTimeout(next_call,250) // delay .25 sec and call again
+        return;
+      }
+/*  // task_window initialized, now go load the data
+    task_window.document.task_info.trigraph.value        = parent.right_frame.igcview.igc_get_task_data(tp_index,"trigraph");
+    task_window.document.task_info.text.value            = parent.right_frame.igcview.igc_get_task_data(tp_index,"text");
+    task_window.document.task_info.latitude.value        = parent.right_frame.igcview.igc_get_task_data(tp_index,"latitude");
+    task_window.document.task_info.longitude.value       = parent.right_frame.igcview.igc_get_task_data(tp_index,"longitude");
+    task_window.document.task_info.add_to_task.checked   = (parent.right_frame.igcview.igc_get_task_data(tp_index,"add_to_task") == "true");
+    task_window.document.task_info.tp_or_area[1].checked = (parent.right_frame.igcview.igc_get_task_data(tp_index,"tp_or_area") == "area");
+    task_window.document.task_info.radius.value          = parent.right_frame.igcview.igc_get_task_data(tp_index,"radius");
+    task_window.document.task_info.bearing1.value        = parent.right_frame.igcview.igc_get_task_data(tp_index,"bearing1");
+    task_window.document.task_info.bearing2.value        = parent.right_frame.igcview.igc_get_task_data(tp_index,"bearing2");
+*/
+    tp_count = parent.right_frame.igcview.igc_get_task_data("tp_count",1);
+    task_window.set_value("tp_count",1,tp_count);
+    task_window.set_value("trigraph",1,"GRL");
+    task_window.set_value("full_name",1,"Gransden Lodge");
+    task_window.set_value("trigraph",2,"MET");
+    task_window.set_value("full_name",2,"Melton Mowbray");
+    task_window.focus();
+  }
+
+</script>
+
+</head>
+<body>
+<h3>Master v12</h3>
+<form>
+<input type="button" value="Show Task info" onClick="igc_show_task_info()">
+</form>
+
+</body>
+</html>

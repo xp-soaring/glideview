@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>IGCview - IGC GPS log analysis program</title>
+<SCRIPT LANGUAGE="JavaScript" SRC="igcview.js"> // JavaScript file defines routines called by IGCview applet
+</SCRIPT>
+</head>
+<BODY TOPMARGIN=0>
+<font face='Helvetica'>
+<table border="0" cellpadding="0" cellspacing="1">
+<tr>
+<td>&nbsp;</td>
+<td>
+<A HREF="files.html" TARGET="left_frame">
+	<IMG SRC='images/file_button.gif' ALT='Show files buttons down left side of page' BORDER="0"></A>
+<!-- <A HREF="zoom.html" TARGET="left_frame">
+	<IMG SRC='images/zoom_button.gif' ALT='Show zoom buttons down left side of page' BORDER="0"></A>
+-->
+<A HREF="task.html" TARGET="left_frame">
+	<IMG SRC='images/task_button.gif' ALT='Show task buttons down left side of page' BORDER="0"></A>
+<A HREF="replay.html" TARGET="left_frame">
+	<IMG SRC='images/replay_button.gif' ALT='Show replay buttons down left side of page' BORDER="0"></A>
+<A HREF="tools.html" TARGET="left_frame">
+	<IMG SRC='images/tools_button.gif' ALT='Show tools buttons in left frame' BORDER="0"></A>
+<A HREF='javascript:parent.right_frame.document.igcview.igc_flight_data()'>
+	<IMG SRC='images/flight_data_button.gif' ALT='Flight Analysis...' BORDER="0"></A>
+
+&nbsp;&nbsp;&nbsp;
+
+<A HREF="documentation/help.html" TARGET="help_window">
+	<IMG SRC='images/help_button.gif' ALT='Help' BORDER="0"></A>
+</td>
+</tr>
+<tr>
+<td valign="top">
+  <i>Zoom:</i><br/>
+  <A HREF='javascript:parent.right_frame.document.igcview.igc_zoom_in()'>
+	<IMG SRC='images/zoom_in.gif' ALT="Zoom in (or open 'zoom box' on map by dragging mouse)" BORDER="0"></A><br/>
+  <A HREF='javascript:parent.right_frame.document.igcview.igc_zoom_out()'>
+	<IMG SRC='images/zoom_out.gif' ALT='Zoom out' BORDER=0></A><br/>
+  <A HREF='javascript:parent.right_frame.document.igcview.igc_zoom_to_task()'>
+	<IMG SRC='images/zoom_to_task.gif' ALT='Zoom to task' BORDER=0></A><br/>
+  <A HREF='javascript:parent.right_frame.document.igcview.igc_zoom_to_flight()'>
+	<IMG SRC='images/zoom_to_flight.gif' ALT='Zoom to flight' BORDER=0></A><br/>
+  <table summary="pan arrows" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td>&nbsp;</td>
+      <td><a HREF='javascript:parent.right_frame.document.igcview.igc_pan_north()'>
+          <img src="images/up_arrow.gif" alt="pan upwards">
+          </a>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><a HREF='javascript:parent.right_frame.document.igcview.igc_pan_west()'>
+          <img src="images/left_arrow.gif" alt="pan left">
+          </a>
+      </td>
+      <td>&nbsp;</td>
+      <td><a HREF='javascript:parent.right_frame.document.igcview.igc_pan_east()'>
+          <img src="images/right_arrow.gif" alt="pan right">
+          </a>
+      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><a HREF='javascript:parent.right_frame.document.igcview.igc_pan_south()'>
+          <img src="images/down_arrow.gif" alt="pan downwards">
+          </a>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <A HREF='javascript:parent.right_frame.document.igcview.igc_cursor_mode()'>
+	  <IMG SRC='images/cursor_button.gif' ALT='click this button then click on flight trace to set current cursor position' BORDER=0>
+  </A>
+  <form>
+   <input type='checkbox' onClick='javascript:parent.right_frame.document.igcview.igc_image_mode()'>
+   <small>Map</small>
+  </form>
+</td>
+<td><script>
+      var m_width = igc_querystring("m_width"); // width of map applet in pixels
+      var m_height = igc_querystring("m_height"); // height of map applet in pixels
+      if (m_width=="") m_width = "840";
+      if (m_height=="") m_height = "600";
+      document.write("<APPLET NAME='igcview' code='IGCview.class' width=" + m_width + " height=" + m_height + " MAYSCRIPT>");
+      document.write("<PARAM NAME='MAGIC' VALUE='1'>");
+      document.write("<hr>");
+      document.write("IGCview is a java applet - java not loaded");
+      document.write("</APPLET>");
+    </script>
+</td>
+</tr>
+</table>
+<table border="0">
+<tr>
+<td width="45">
+<A HREF="documentation/help_graph.html" TARGET="help_window">
+	<IMG SRC='images/help_button.gif' ALT='Help' BORDER="0"></A></br>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_setalt()>
+	<IMG SRC='images/setalt.gif' ALT='Altitude on vertical axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_setclimb()>
+	<IMG SRC='images/setclimb.gif' ALT='Climb rate on vertical axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_setcruise()>
+	<IMG SRC='images/setcruise.gif' ALT='Cruise speed on vertical axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_setcp()>
+	<IMG SRC='images/setcp.gif' ALT='Climb profile' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_expand_alt()>
+	<IMG SRC='images/expand_alt.gif' ALT='Expand vertical axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_compress_alt()>
+	<IMG SRC='images/compress_alt.gif' ALT='Compress vertical axis' BORDER="0"></A>
+</td>
+<td><script>
+      var g_width = igc_querystring("g_width"); // width of graph applet in pixels
+      var g_height = igc_querystring("g_height"); // height of graph applet in pixels
+      if (g_width=="") g_width = m_width;
+      if (g_height=="") g_height = "180";
+      document.write("<APPLET NAME='igcgraph' code='IGCgraph.class' width=" + g_width + " height=" + g_height + " MAYSCRIPT>");
+      document.write("<hr>");
+      document.write("IGCgraph is a java applet - java not loaded");
+      document.write("</APPLET>");
+    </script>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_settime()>
+	<IMG SRC='images/settime.gif' ALT='Time on horizontal axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_setdist()>
+	<IMG SRC='images/setdist.gif' ALT='Distance on horizontal axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_expand()>
+	<IMG SRC='images/expand.gif' ALT='Expand horizontal axis' BORDER="0"></A>
+<A HREF=javascript:parent.right_frame.document.igcgraph.igc_compress()>
+	<IMG SRC='images/compress.gif' ALT='Compress horizontal axis' BORDER="0"></A>
+</td>
+</tr>
+</table>
+<HR>
+<P><A HREF="documentation/install/install.html">Install and usage instructions</A></P>
+<P>Written by Ian Forster-Lewis (REMOVETHISigcview@forsterANDTHISlewis.com) 
+</P>
+</font>
+</body>
+</html>

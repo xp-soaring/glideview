@@ -1,0 +1,167 @@
+<html>
+<head>
+  <title>IGCview installation notes</title>
+</head>
+<body>
+<font face="Helvetica">
+<H1><IMG SRC="../../images/sask21-3.jpg">&nbsp;IGCview V3.12 installation notes</H1>
+<p>IGCview has been written entirely in the internet programming languages Java and HTML, which
+means it can be run from a web server or locally on your home PC simply by accessing the
+<a href="../../igcview.html">igcview.html</a> file with your browser.  In either circumstance, you have
+to configure your PC to allow IGCview access to your local log files, as the default for Java is
+no access to any local files.</p>
+<p>This configuration is simple, and is explained below.
+<table border="2">
+<tr>
+  <th><font color="green"><strong>Usage</strong></font></th>
+  <th><font color="green"><strong>Pros/cons</strong></font></th>
+</tr>
+<tr>
+  <td><a href="#web">Launching IGCview from a web site</a></td>
+  <td>IGCview can be bundled with some competition logs on a web site, and I intend to make it
+      simple for a competition to preload some logs for display.  Also accessing a website
+      of IGCview is more convenient if your only means of access to the internet is via
+      a web cafe or your employer, where local install of software may be difficult.  IGCview was
+      originally written to be run locally on your PC, but since placing the program on my
+      homepage (<a href="http://www.forsterlewis.com/soaring/igcview/igcview_home.html">http://www.forsterlewis.com</a>)
+      I have found that means of access very convenient.
+  </td>
+</tr>
+<tr>
+  <td><a href="#local">Running IGCview locally on your home computer</a></td>
+  <td>Downloading IGCview to your 'c:' drive improves performance (slightly) depending on the
+      speed of your internet connection, and more importantly removes the requirement for an
+      dial-up connection each time you run the program - important if you're paying per-call charges, or sitting
+      in the middle of an airfield with a laptop.
+  </td>
+</tr>
+</table>
+<h3>This happens if you try to access local log files on your PC without following these instructions first:</h3>
+<a href="security_error.html"><img src="security_error.gif" alt="security error" border="0"></a>
+
+<h2><a name="web"/>Running IGCview from my web site
+  (<a href="http://www.forsterlewis.com/soaring/soaring_home.html">http://www.forsterlewis.com</a>)
+</h2>
+
+<p>Essentially, all you have to do is go to the web page and IGCview is up and running right there.
+<font color="green"><strong>However, permissions must be set in your browser to allow IGCview to load your
+local IGC files.</strong></font>
+The default setting for your browser prevents web (java) application to local files.
+This is a standard function of the browser, designed to protect your machine from malicious code
+embedded in any web page.  We can allow IGCview to run properly by defining my website as a 'Trusted site'.
+The alternative is to download IGCview from my site and 
+<a href="#local">run it entirely locally</a>, like any other local
+application.
+</p>
+<p>Here is a set of instructions suitable for Microsoft Internet Explorer - I haven't got around to
+creating similar instructions for Netscape or other browsers, but it should be possible to do
+something similar.
+</p>
+
+<table border="2" cellpadding="5">
+<colgoup><col width="45%"/><col/></colgroup>
+<tr>
+  <td><font color="green"><strong>Step 1.</strong></font><br>
+      From the IE menu, access Tools... Internet Options, and click the Security tab.  Then on
+      the Security page click on the 'Trusted sites' zone icon, and then click the 'Sites...' button.
+  </td>
+  <td><img src="ie_internet_options.gif"/></td>
+</tr>
+<tr>
+  <td><font color="green"><strong>Step 2.</strong></font><br>
+      Uncheck the checkbox labelled 'Require server verification (https:) etc.', and
+      in the 'Add this Web site to the zone' box type <font face="Courier">http://www.forsterlewis.com</font>.
+      Then click the 'Add...' button and then 'OK'.  Back on the 'Internet Options' panel (shown above),
+      click on the 'Custom Level...' button.
+  </td>
+  <td><img src="ie_trusted_sites.gif"/></td>
+</tr>
+<tr>
+  <td><font color="green"><strong>Step 3.</strong></font><br>
+      In the 'Security Settings' panel, scroll down to the Microsoft VM..Java Permissions
+      and select 'Custom', which will cause a 'Java Custom Settings' button to appear at
+      the bottom of the panel.  Click this 'Java Custom Settings' button.
+  </td>
+  <td><img src="ie_security_settings.gif"/></td>
+</tr>
+<tr>
+  <td><font color="green"><strong>Step 4.</strong></font><br>
+      On the 'Trusted sites' panel select the 'Edit Permissions' tab and ensure you select
+      the following under 'Unsigned Content..Run Unsigned Content':
+	<ul>
+	  <li>Run in sandbox</li>
+	  <li>Under 'Additional Unsigned Permissions' select:
+	    <ul>
+	      <li>Access to all files..Enable</li>
+	      <li>Dialogs..Enable</li>
+	      <li>User Selected File Access..Enable</li>
+	    </ul>
+	  </li>
+	</ul>
+      The right permissions are now set, and you can click the 'OK' buttons until you are out of
+      the menus and back to the normal browser window.
+  </td>
+  <td><img src="ie_edit_permissions.gif"/></td>
+</tr>
+
+</table>
+
+<h2><a name="local"/>Running IGCview locally on your PC</h2>
+<OL>
+<LI><P><STRONG>IGCview html and java class files are delivered zipped.</STRONG></P>
+    <P>Download and unzip 
+       <a href="../../igcview.zip">igcview.zip</a> into a suitable directory from which to run the program, e.g.
+               "C:\igcview".</P>
+</LI>
+<LI><P><STRONG>You have to store your flights somewhere</STRONG></P>
+    <P>Create a directory to hold your IGC log files, e.g. "C:\igcfiles".  
+       If you already have your log files somewhere then fine, just leave them there.</P>
+</LI>
+<LI><P><STRONG>You (may) need to tell your browser where the program files are.</STRONG></P>
+    <p>
+	<table border="2">
+	<tr>
+	<td><p><b>Windows NT and Windows XP</b></p>
+            <p>From the desktop 'Start' menu, go 'Settings' 'Control Panel' 'System' 'Environment' and
+            create a new variable 'CLASSPATH' with the value ".;[the directory IGCview is installed in]"
+            for example ".;c:\igcview".</p>
+            <p>For Windows XP, the process is pretty much the same with superficial changes to the
+               settings windows.  See here for the
+               <a href="xp1.jpg">system properties</a> window, then the
+               <a href="xp2.jpg">environment variables</a> window, and the
+               <a href="xp3.jpg">new variable</a> window, where you create or edit the
+               CLASSPATH variable.</p>
+	</td>
+	<td><img src="set_classpath.jpg"/></td>
+	</tr>
+	<tr>
+	<td><b>Windows ME & earlier</b><br>
+	  <ol>
+	    <li>Browse your "C:\" drive with "My Computer" or "Windows Explorer" on the Start Menu</li>
+			<li>Right&#45;click the file 'c:\autoexec.bat' and select "Edit" from the pop&#45;up menu.
+			  This should launch the Notepad editor.</li>
+			<li>Add a new line anywhere the file to create a new variable 'CLASSPATH' with the value ".;[the directory IGCview is installed in]"
+            for example ".;c:\igcview;".</li>
+		</ol>
+	</td>
+	<td><img src="win_me_autoexec_file.gif" alt="finding c:\autoexec.bat"/>
+	    <img src="win_me_autoexec.gif" alt="using Edit"/></td>
+	</tr>
+	</table>
+    </p>
+</LI>
+<LI><P><STRONG>To run the program:</STRONG></P>
+    <P>To run IGCview just enter "c:\igcview\igcview.html" in the browser 
+    address box or click on that file in Windows Explorer.</P>
+    <P>Alternatively, follow the link in 'igcview_home.html'</P>
+</LI>
+<LI>I hope that went ok... now just put 'igcview.html' on your favourites and you're ready to roll... if
+    your permissions are still not correct, then the 'file' 'open' button will appear to do nothing, or
+		(more likely) you'll get 
+    <a href="security_error.html">this page</a> warning you of a security error.
+</LI>
+</OL>
+<br>
+</font>
+</body>
+</html>

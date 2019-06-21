@@ -1,0 +1,130 @@
+<head>
+<title>IGCview TP Detail</title>
+<style>
+ td { font-family: Helvetica; }
+ .box { font-family: Helvetica; 
+        background-color: rgb(240,255,220);
+        border: solid rgb(220,235,200) 2px;
+        text-align: right }
+ .units { font-family: Helvetica; 
+          background-color: rgb(200,216,192);
+        border: solid rgb(200,216,192) 2px;
+        text-align: left }
+</style>
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+
+function load_tp_info()
+  {
+    opener.load_tp_info(this);
+  }
+  
+function save()
+  {
+    // alert("Saving...");
+    opener.save_tp_info();
+    self.close();
+  }
+
+// this function not used in current version
+function check_task() // called when 'area' radio button clicked
+  {
+    if (!tp_info.tp_in_task.checked)
+      alert("IGCview warning: Add this TP to the task if you want to define an area based on this turnpoint");
+  }
+
+// this function not used in current version
+function add_tp_to_task() // called when link clicked on page
+  {
+    if (tp_info.tp_in_task.checked)
+      {
+        input_box=confirm("IGCview: This existing turnpoint in your current task will be added to the end of the task.");
+        if (input_box==true)
+          tp_info.add_to_task.value = "true";
+      }
+    else
+      {
+        input_box=confirm("IGCview: This new turnpoint will be added to your current task.");
+        if (input_box==true)
+          {
+            tp_info.tp_in_task.checked = true;
+            tp_info.add_to_task.value = "true";
+          }
+      }
+  }
+//--></SCRIPT>
+
+</head>
+<body onLoad="load_tp_info()">
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td><b>Turnpoint detail</b></td>
+<td align="right"><a href="documentation/help_tp_info.html" target="help_window"><img src="images/help_button.gif" border="0"/></a></td>
+</tr>
+</table>
+
+<form name="tp_info">
+<input type="hidden" name="add_to_task" value="false">
+
+<table border="0" cellpadding="0" cellspacing="0">
+
+<tr><td colspan="2">
+      <input type="text" name="trigraph" size="35" border="0" 
+             style="font-family: Helvetica; 
+                    background-color: rgb(240,255,220); 
+                    border: solid rgb(220,235,200) 2px">
+    </td></tr>
+<tr><td colspan="2">
+      <input type="text" name="full_name" size="35"
+             style="font-family: Helvetica; 
+                    background-color: rgb(240,255,220); 
+                    border: solid rgb(220,235,200) 2px">
+    </td></tr>
+<tr><td colspan="2">
+      <input type="text" name="latitude" size="35"
+             style="font-family: Helvetica; 
+                    background-color: rgb(240,255,220); 
+                    border: solid rgb(220,235,200) 2px">
+    </td></tr>
+<tr><td colspan="2">
+      <input type="text" name="longitude" size="35"
+             style="font-family: Helvetica; 
+                    background-color: rgb(240,255,220); 
+                    border: solid rgb(220,235,200) 2px">
+    </td></tr>
+<!-- REMOVE Task TP info
+<tr><td colspan="2">This TP in task: 
+                    <input type="checkbox" name="tp_in_task" value="tp_in_task" DISABLED>
+                    <a href="javascript:add_tp_to_task()">Add to task</a>
+    </td></tr>
+-->
+</table>
+
+<!-- REMOVE Task TP info
+
+<table border="0">
+<tr><td align="right">TP: <input type="radio" name="tp_or_area" value="tp" checked></td>
+    <td bgcolor=#c8d8c0><input type="radio" name="tp_or_area" value="area" onClick="check_task()"> :Area</td></tr>
+<tr bgcolor=#c8d8c0><td>Min distance:</td>
+    <td><input type="text" size="8" name="radius1" class="box">
+        <input type="text" size="6" name="dist_units1" value="meters" class="units"></td></tr>
+<tr bgcolor=#c8d8c0><td>Max distance:</td>
+    <td><input type="text" size="8" name="radius2" class="box">
+        <input type="text" size="6" name="dist_units2" value="meters" class="units"></td></tr>
+<tr bgcolor=#c8d8c0><td>Area bearing 1:</td>
+    <td><input type="text" size="8" name="bearing1" value="" class="box"> degrees</td></tr>
+<tr bgcolor=#c8d8c0><td>Area bearing 2:</td>
+    <td><input type="text" size="8" name="bearing2" value="" class="box"> degrees</td></tr>
+</table>
+
+-->
+<table border="0">
+<tr><td colspan="2" align="center"><input type="button" value="Save" width="20" onClick="save()">&nbsp;
+                    <input type="button" value="Cancel" width="20" onClick="self.close()">
+</table>
+
+</form>
+
+</body>
+</html>

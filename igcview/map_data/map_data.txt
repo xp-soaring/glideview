@@ -1,0 +1,12 @@
+; this file contains the list of image files to load
+; any line beginning with ';' is a comment
+;
+; format is filename,latitude_top_left,longitude_top_left,latitude_bottom_right,longitude_bottom_right
+;
+; lat/long format is <degrees> <space> <minutes><decimal point><decimals of minutes><N|S|E|W>
+;
+; be careful to avoid spaces before/after commas - IGCview will not read these lines correctly
+;
+map_data/govcup.gif,41 25.733N,76 44.300W,39 46.183N,74 14.100W
+map_data/blair2.gif,41 25.5N,79 12.084W,39 46.068N,76 41.46W
+map_data/blair3.gif,43 22.5N,75 55.404W,41 25.662N,73 21.69W

@@ -1,0 +1,365 @@
+<HTML>
+<head>
+<title>IGCview development notes</title>
+</head>
+<BODY>
+<font face="Helvetica">
+<IMG SRC="../images/sask21-3.jpg">
+<strong>IGCview development notes</strong><BR>
+<HR>
+<H2>Contents</H2>
+<OL>
+<LI><A HREF="#general">General</A></LI>
+<LI><A HREF="#layout">IGCview.html naming and layout</A></LI>
+<LI><A HREF="#interaction">Java+JavaScript+HTML combined programming</A></LI>
+<LI><A HREF="#buttons">IGCview buttons and their functions</A></LI>
+<LI><A HREF="#igc_functions">IGCview applet public interface functions</A></LI>
+</OL>
+<HR>
+
+<H2><A NAME="general">General</A></H2>
+
+<P>These notes are intended for developers and web designers who might want to modify
+the IGCview program.</P>
+
+<P>IGCview was originally written as a java application running in its own window,
+but has now been converted to a java applet running within the browser, 
+e.g. Internet Explorer or Netscape.
+This means you no longer have to download the java runtime environment as you used
+ to with earlier versions, but can simply launch IGCview.html from your browser.</P>
+
+<P>Another benefit of the applet design is that much of the user interface is now
+written in the HTML wrapped around the applet, rather than having menus and buttons
+within the applet window itself.  This means you can change the look-and-feel of
+IGCview without modifying and re-compiling the core graphics code.  For example, this
+means a different language version can be created simply by editing the HTML files.</P>
+
+<P>IGCview can be run locally from a directory on your PC, or can be run from a web server.
+However, the file handling is currently implemented for local files only, so web execution
+is pretty useless. However... I intend to modify the applet to run well from the web.</P>
+
+<P>So, you can imagine the strategic development for IGCview to be as follows:
+<OL>
+<LI>Write the basic IGC soaring GPS log file analysis program in Java so it
+	runs on any platform - <EM>Done</EM></LI>
+<LI>Adjust the code so the application can be launched from the browser without
+	using a locally installed Java Runtime Environment or JDK - <EM>Done</EM></LI>
+<LI>Migrate the user interface from 'frame' menus to HTML buttons etc. with Javascript
+	calls to applet 'interface' functions - <EM>In process (18/Feb/00)</EM></LI>
+<LI>Change the 'igc_file_open()' applet interface method to 'igc_file_open(filename)'
+	so that the file selection dialog is moved into HTML and 'url' filenames can be
+	specified to load files from the web server, e.g. for a competition
+	website - <EM>Not yet started, but should be 'easy'</EM></LI>
+<LI>Create an applet 'interface' method to add a log-point for a given glider, i.e.
+	incrementally build the log files in real time.  This means the applet could simply
+	display the progress of competing gliders also in real time, plus provide all the 
+	analysis mid-flight, without a major change to the code.</LI>
+<LI>Stick a real map underneath the log/task map view.  This would be great for the above
+	requirement, particularly for non-pilot observers, but may take a fair amount of
+	engineering.  I know of another product which allows you to slide a GIF underneath
+	your GPS track, but the scaling/translation seems difficult.  Maybe this capability
+	could be limited to one scale?</LI>
+
+</OL>
+<P>When we get to step 4, a competition site could provide online maggot racing of
+the previous days task, with all the logs and the applet running from the web server.</P>
+<P>At step 5, they can provide online maggot-racing in real-time.</P>
+
+<H2><A NAME="layout">IGCview.html main page layout</A></H2>
+
+<P>The main page of IGCview.html is divided into multiple frames:</P>
+<IMG SRC="images/igcview_frames.gif" BORDER="0">
+
+<P>The many buttons are arranged around the applets, with each HTML button having
+a 'onClick' method which either calls a method within the IGCview.class or IGCgraph.class
+applets, or loads another HTML page containing more buttons into one of the frames.<P>
+
+<P>The buttons and their functions are defined below, and it is important to understand that
+the buttons can be redesigned and moved around in the user interface, without affecting
+the functionality of the application at all.  In fact, for much of the development time,
+I had the buttons defined as simple links in an HTML 'unordered list' and it was only at a
+late stage that I created the current graphical buttons.  In due course perhaps someone will
+create a better look-and-feel than the current one.</P>
+
+<H2><A NAME="interaction">Some notes on java-javascript interaction</A>, cross-browser compatibility, and local file access</H2>
+<H3>Java-javascript interaction</H3>
+<P>The essential function necessary for the proper control and communication between a web page
+   and its embedded applets are:
+   <UL>
+     <LI>The ability to call a function in the applet from within javascript code</LI>
+     <LI>The ability to call a javascript function from within the java applet</LI>
+     <LI>The ability for java applets to call each others functions (when you have multiple
+         applets on the page</LI>
+   </UL></P>
+<P>The good news is that these things are possible in a consistent way with both IE and netscape.
+Microsoft and Netscape provide broader capabilities in incompatible ways, but the above functions
+provide a powerful basis for a complete application to exploit the features of HTML, Java, and
+Javascript.</P>
+
+<H4>Calling applet Java methods from Javascript</H4>
+<P>Firstly, embed the applet in your page and give it a <EM>Name</EM> attribute:</P>
+<XMP>
+<APPLET NAME="myapplet" CODE=MyApplet.class CODEBASE=MyApplet.jar>
+</APPLET>
+</XMP>
+
+<P>Let's assume you have a method 'showDate(String)' in your applet.  This method must be
+declared <EM>public</EM>, as in <BR>
+<XMP>
+public void showDate(String s)
+ {
+  ... method code here
+ }
+</XMP>
+Although you often might have MyApplet.class defined within a file called MyApplet.java, be
+careful to ensure that showDate() is a method of class MyApplet, not a method of some other
+class defined within MyApplet.java.  In the example given here, the function showDate() does
+not return a value but this is supported simply if necessary.</P>
+
+<P>Then, within your javascript code, simply call<BR>
+<XMP>
+document.myapplet.showDate("24/2/2000")
+</XMP>
+and the method in the applet will be called with the string parameter given.</P>
+
+<P>I recommend that you limit the parameters and return values to strings and ints, to
+avoid potentially complex type conversion issues.</P>
+
+<P>Netscape does not currently support variable case letters in the NAME property of
+the APPLET tag, so be careful to use all lowercase.  In the example above note that I have
+used the name "myapplet" even though the code is in a file called "MyApplet.class".</P>
+
+<H4>Calling javascript functions from within java applets</H4>
+
+<P>Add <EM>MAYSCRIPT</EM> to the <EM>APPLET</EM> tag, as in
+<XMP>
+<APPLET NAME="myapplet" CODE=MyApplet.class CODEBASE=MyApplet.jar MAYSCRIPT>
+</APPLET>
+</XMP>
+
+<P>Import <TT>netscape.javascript.JSObject</TT> into your java program, as in
+<XMP>
+import netscape.javascript.JSObject;
+</XMP>
+When you compile MyApplet.java, JSObject.class will need to be on the CLASSPATH.
+If you have the Netscape browser installed, the JSObject class should be found ok in the
+file <TT>java40.jar</TT>.  If you are running Internet Explorer, you need to download the
+Netscape browser, do a limited install, and find the <TT>java40.jar</TT> file. As
+<TT>JSObject.class</TT> is the only file you need from <TT>java40.jar</TT>, you can
+use a utility like WinZip to extract that one file from the java archive and just
+put the one classfile <TT>JSObject.class</TT> on your CLASSPATH.  Because the class is
+referred to as <TT>netscape.javascript.JSObject</TT>, you should put
+<TT>JSObject.class</TT> in a directory <TT>netscape/javascript</TT> off your CLASSPATH.</P>
+
+<P>In summary, if you have IE installed, you extract <TT>JSObject.class</TT> from
+<TT>java40.jar</TT> into a file <TT>netscape/javascript/JSObject.class</TT> with the
+base directory being itself in a directory referred to in your environment variable
+CLASSPATH.</P>
+
+<P>Note that you need <TT>JSObject</TT> to <EM>compile</EM> your java applet, but the
+subsequent <EM>execution</EM> of that applet is supported on IE or Netscape browsers without
+an additional download by the user.</P>
+
+<P>Then in init set var JSObject a = getAppletContext</P>
+
+<P>Set up args in Object[] a = { "xxx", "yyy" }; </P>
+
+<P>To call function call a.call("funcname", args);</P>
+
+<H4>Calling java methods from within other java applets</H4> 
+
+<P>Get a reference to the other applet:
+<XMP>
+static IGCview ApIGCview;
+
+IGCview ApIGCview = (IGCview) getAppletContext().getApplet("igcview");
+</XMP>
+Note that this code can only be executed when you are confident the other applet (in this
+case the applet with NAME parameter "igcview") has been fully loaded.  The call to 
+<TT>getAppletContext().getApplet(..)</TT> should therefore not be contained within the
+<TT>init()</TT> method of your applet, or it may get called too early.  A good technique
+is to call <TT>getApplet(..)</TT> on the first user interaction with your applet.</P>
+
+<P>Then a function in your partner applet can be called directly, for example:</P>
+<XMP>
+ApIGCview.igc_file_open();
+</XMP>
+
+<P>If there is a potential concurrent consistency issue, then the execution thread in the
+partner applet can be stopped and started during the execution of the function call from
+this applet with:</P>
+<XMP>
+ApIGCview.stop();
+ApIGCview.igc_file_open();
+ApIGCview.start();
+</XMP>
+
+<P>It may be better to design the partner applet to execute in a threadsafe manner aware of the
+possible interactions from this applet making the cross-applet call.</P>
+
+<P>Also, in the applet receiving the cross-applet calls, it makes good sense to structure
+the intended public methods into a well documented api, so your applet becomes easily re-usable
+and also the application can be changed around without necessarily re-compiling that
+individual applet.</P>
+
+<H3>Cross-browser compatibility</H3>
+
+<H3>Local file access</H3>
+
+<H2><A NAME="buttons">IGCview buttons and their functions</A></H2>
+<TABLE BORDER="2" CELLPADDING="6">
+<TR>	<TH>Image</TH>
+	<TH>Function</TH>
+	<TH>Location</TH>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom_button.gif"></TD>
+	<TD>load <TT>zoom.html</TT> into <TT>left_frame</TT></TD>
+	<TD><TT>right_frame.html</TT></TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/replay_button.gif"></TD>
+	<TD>load <TT>replay.html</TT> into <TT>left_frame</TT></TD>
+	<TD><TT>right_frame.html</TT></TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/tools_button.gif"></TD>
+	<TD>load <TT>tools.html</TT> into <TT>left_frame</TT></TD>
+	<TD><TT>right_frame.html</TT></TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/help_button.gif"></TD>
+	<TD>load help.html into left_frame</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/setalt.gif"></TD>
+	<TD>call applet Altitude graph function igcview.igc_setalt()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/setcruise.gif"></TD>
+	<TD>call applet Cruise graph function igcview.igc_setcruise()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/setcp.gif"></TD>
+	<TD>call applet Climb graph function igcview.igc_setcp()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/setdist.gif"></TD>
+	<TD>call applet Distance x-axis function igcview.igc_setdist()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/settime.gif"></TD>
+	<TD>call applet Time x-axis function igcview.igc_settime()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/expand.gif"></TD>
+	<TD>call applet Expand x-axis function igcview.igc_expand()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/compress.gif"></TD>
+	<TD>call applet Compress x-axis function igcview.igc_compress()</TD>
+	<TD>right_frame.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom_in.gif"></TD>
+	<TD>call applet function igcview.igc_zoom_in()</TD>
+	<TD>zoom.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom_out.gif"></TD>
+	<TD>call applet function igcview.igc_zoom_out()</TD>
+	<TD>zoom.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom_to_task.gif"></TD>
+	<TD>call applet igcview.igc_zoom_to_task()</TD>
+	<TD>zoom.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom_to_flight.gif"></TD>
+	<TD>call applet igcview.igc_zoom_to_flight()</TD>
+	<TD>zoom.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom_reset.gif"></TD>
+	<TD>call applet igcview.igc_zoom_reset()</TD>
+	<TD>zoom.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/synchro_start.gif"></TD>
+	<TD>call applet igcview.igc_synchro_start()</TD>
+	<TD>replay.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/realtime_start.gif"></TD>
+	<TD>call applet igcview.igc_realtime_start()</TD>
+	<TD>replay.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/race_forwards.gif"></TD>
+	<TD>call applet igcview.igc_race_forwards()</TD>
+	<TD>replay.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/race_backwards.gif"></TD>
+	<TD>call applet igcview.igc_race_backwards()</TD>
+	<TD>replay.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/race_pause.gif"></TD>
+	<TD>call applet igcview.igc_race_pause()</TD>
+	<TD>replay.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/race_stop.gif"></TD>
+	<TD>call applet igcview.igc_race_stop()</TD>
+	<TD>replay.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/ruler.gif"></TD>
+	<TD>call applet igcview.igc_ruler() (currently igc_ruler_zoom())</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/zoom.gif"></TD>
+	<TD>call applet igcview.igc_zoom() (currently igc_ruler_zoom())</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/define_task.gif"></TD>
+	<TD>call applet igcview.igc_define_task()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/set_wind.gif"></TD>
+	<TD>call applet igcview.igc_set_wind()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/flight_data_button.gif"></TD>
+	<TD>call applet igcview.igc_flight_data()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/tp_detail_button.gif"></TD>
+	<TD>call applet igcview.igc_tp_detail()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/scoring_data_button.gif"></TD>
+	<TD>call applet igcview.igc_scoring_data()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/preferences.gif"></TD>
+	<TD>call applet igcview.igc_preferences()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/select_tracks.gif"></TD>
+	<TD>call applet igcview.igc_select_tracks()</TD>
+	<TD>tools.html</TD>
+</TR>
+<TR>	<TD><IMG SRC="../images/clear_tracks.gif"></TD>
+	<TD>call applet igcview.igc_clear_tracks()</TD>
+	<TD>tools.html</TD>
+</TR>
+
+</TABLE>
+
+<H2><A NAME="igc_functions">IGCview applet public interface functions</A></H2>
+
+<P>This section describes the functions available in the IGCview and IGCgraph applets
+that can be called from the surrounding HTML to provide the complete application
+functionality.</P>
+
+<P>For example, to get the main map frame to zoom out, call
+<TT>document.igcview.igc_zoom_out()</TT> from your HTML or JavaScript.  Note that you may
+need to add the frame name if the call is in another frame, e.g.
+<TT>right_frame.document.igcview.igc_zoom_out()</TT>.
+<BR>
+<TABLE BORDER="2" CELLPADDING="6">
+<TR><TH>Function name</TH><TH>Functionality</TH></TR>
+<TR><TD>IGCview.igc_file_open(string)</TD>
+    <TD>Open log file with name 'string'</TD></TR>
+</TABLE>
+
+</font>
+</BODY>
+</HTML>

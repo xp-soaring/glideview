@@ -1,0 +1,319 @@
+<html>
+<head>
+<title>IGCview Task Info</title>
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+
+var tp_count = 0; // max number of turnpoints in task
+
+var column_count = 9; // number of fields per turnpoint on task_info form
+
+var trigraph = new Array();
+var full_name = new Array();
+var dist = new Array();
+var track = new Array();
+var tp_or_area = new Array();
+var radius1 = new Array();
+var radius2 = new Array();
+var bearing1 = new Array();
+var bearing2 = new Array();
+var length = 0;              // task length
+var dist_units = "xx";       // units of distance, i.e. "km", "nm", "mi"
+
+// update data in window
+function refresh()
+  {
+    get_task_info(); 
+    write_task_form(); 
+    load_task_info();
+  }
+  
+function get_task_info()
+  {
+    // opener.load_task_info();
+    opener.load_task_info(this);
+  }
+
+function get_tp_count()
+  {
+    return tp_count;
+  }
+  
+function set_value(tp_number,field, value) // set task_info.field_index.value to value
+  {
+    if (field=='tp_count') { tp_count = parseInt(value); return;} 
+    if (field=='dist_units') { dist_units = value; return;} 
+    if (tp_number>tp_count) return;
+    if      (field=='trigraph')   { trigraph[tp_number] = value; }
+    else if (field=='full_name')  { full_name[tp_number] = value; }
+    else if (field=='dist')       { dist[tp_number-1] = value; }
+    else if (field=='track')      { track[tp_number-1] = value; }
+    else if (field=='tp_or_area') { tp_or_area[tp_number] = value; }
+    else if (field=='radius1')    { radius1[tp_number] = value; }
+    else if (field=='radius2')    { radius2[tp_number] = value; }
+    else if (field=='bearing1')   { bearing1[tp_number] = value; }
+    else if (field=='bearing2')   { bearing2[tp_number] = value; }
+    else if (field=='length')     { length = value; }
+    else alert("IGCview error: unexpected set_value ("+field+") in task_info");
+  }
+
+function field_to_index(column_number, tp_number)
+  {
+    var field_index;
+    field_index = (tp_number-1)*column_count+column_number;
+    // if (field_index>1) field_index = field_index - 2;
+    return field_index;
+  }
+  
+function get_value(tp_number,field) // return task_info.field_index.value for given tp_number
+  {
+    var field_index;
+    if (tp_number>tp_count) return;
+    if (field=='tp_count') { return ""+tp_count; } 
+    else if (field=='trigraph')   { return task_info_frame.task_info.elements[field_to_index(0,tp_number)].value; }
+    else if (field=='full_name')  { return task_info_frame.task_info.elements[field_to_index(1,tp_number)].value; }
+    else if (field=='tp_or_area') { return (task_info_frame.task_info.elements[field_to_index(2,tp_number)].checked ? "area" : "tp"); }
+    else if (field=='radius1')    { return task_info_frame.task_info.elements[field_to_index(3,tp_number)].value; }
+    else if (field=='radius2')    { return task_info_frame.task_info.elements[field_to_index(4,tp_number)].value; }
+    else if (field=='bearing1')   { return task_info_frame.task_info.elements[field_to_index(5,tp_number)].value; }
+    else if (field=='bearing2')   { return task_info_frame.task_info.elements[field_to_index(6,tp_number)].value; }
+    else if (field=='dist')       { return task_info_frame.task_info.elements[field_to_index(7,tp_number)].value; }
+    else if (field=='track')      { return task_info_frame.task_info.elements[field_to_index(8,tp_number)].value; }
+    else alert("IGCview error: unexpected get_value ("+field+") in task_info");
+  }
+
+function save()
+  {
+    // alert("Saving...");
+    opener.save_task_info();
+    self.close();
+  }
+
+function close_window()
+  {
+    self.close();
+  }
+  
+// load_task_info() copies data from arrays into page form input fields
+function load_task_info()
+  {
+    var i, field_index=0; // i is tp_number
+    for (i=1; i<=tp_count; i++)
+      {
+        task_info_frame.task_info.elements[field_index++].value = trigraph[i];
+        task_info_frame.task_info.elements[field_index++].value = full_name[i];
+        task_info_frame.task_info.elements[field_index++].checked = (tp_or_area[i]=="area");
+        task_info_frame.task_info.elements[field_index++].value = radius1[i];
+        task_info_frame.task_info.elements[field_index++].value = radius2[i];
+        task_info_frame.task_info.elements[field_index++].value = bearing1[i];
+        task_info_frame.task_info.elements[field_index++].value = bearing2[i];
+        if (i<tp_count) // no dist and track after finish turnpoint
+          {
+            task_info_frame.task_info.elements[field_index++].value = dist[i];
+            task_info_frame.task_info.elements[field_index++].value = track[i];
+          }
+      }
+    if (tp_count>1) task_info_frame.task_info.length.value = length;
+  }
+
+function write_task_form()
+{
+  s = "";
+s = s+ "<html>";
+s = s+ "<head>";
+s = s+ "<style>";
+s = s+ " td { font-family: Helvetica; }";
+s = s+ " .textbox { font-family: Helvetica; ";
+s = s+ "            background-color: rgb(240,255,220); ";
+s = s+ "            border: solid rgb(220,235,200) 2px;";
+s = s+ "            text-align: right;";
+s = s+ "          }";
+s = s+ " .ltextbox { font-family: Helvetica; ";
+s = s+ "            background-color: rgb(240,255,220); ";
+s = s+ "            border: solid rgb(220,235,200) 2px; ";
+s = s+ "          } ";
+
+s = s+ " th { font-family: Helvetica; font-size: 10pt } ";
+
+s = s+ " .action_link { font-family: Helvetica; font-size: 8pt } ";
+
+s = s+ "</style> ";
+s = s+ "</head>";
+s = s+ "<body>";
+
+
+s = s+ "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+s = s+ "<tr>";
+s = s+ "<td><b>Task information</b>&nbsp;";
+s = s+ "<font size='2'>(<a href='javascript:parent.close_window()'>close this window</a>)</font>";
+s = s+ "</td>";
+s = s+ "<td align='right'><a href='documentation/help_task.html' target='help_window'>";
+s = s+ "  <img src='images/help_button.gif' border='0'/></a></td>";
+s = s+ "</tr>";
+s = s+ "</table>";
+s = s+ "<form name='task_info'>";
+
+s = s+ "<table border='0' cellpadding='0' cellspacing='2' width='98%'>";
+
+//write headers
+s = s+ "<tr>";
+s = s+ "<th>&nbsp;</th>";
+s = s+ "<th>Name:</th>";
+s = s+ "<th>Full name:</th>";
+s = s+ "<th>Dist<br/>("+ dist_units +"):</th>";
+s = s+ "<th>Trk:</th>";
+s = s+ "<th>Area:</th>";
+s = s+ "<th>Min<br/>dist("+ dist_units + "):</th>";
+s = s+ "<th>Max<br/>dist("+ dist_units + "):</th>";
+s = s+ "<th>Brg1:</th>";
+s = s+ "<th>Brg2:</th>";
+s = s+ "</tr>";
+
+// write first insert line
+s = s+ "<tr>";
+s = s+ "  <td colspan='2'>&nbsp;</td>";
+if (tp_count==0) // define new task
+  {
+    s = s+ "  <td colspan='8'><a href='javascript:parent.insert_task_tp(1)'>";
+    s = s+ "click here to insert start turnpoint into a new task</a></td>";
+  }
+else
+  {
+    s = s+ "  <td colspan='8'><a href='javascript:parent.insert_task_tp(1)' class='action_link'>(insert)</a></td>";
+  }
+s = s+ "</tr>";
+
+// write TP lines
+for (i=1; i<=tp_count; i++)
+  {
+    s = s+ "<tr>";
+    s = s+ "  <td align='right'>"+i+".</td>";
+    s = s+ "  <td><input type='text' size='10' name='trigraph_"+i+"' tabIndex='1' class='ltextbox'></td>";
+    s = s+ "  <td><input type='text' size='25' name='full_name_"+i+"' value='' class='ltextbox' onClick='task_info.trigraph_"+i+".focus()'></td>";
+    s = s+ "  <td colspan='2'>&nbsp;</td>";
+    s = s+ "  <td align='right'><input type='checkbox' name='area_"+i+"'></td>";
+    s = s+ "  <td align='right'><input type='text' size='5' align='right' name='radius1_"+i+"' value='' onChange='task_info.area_"+i+".checked=true'></td>";
+    s = s+ "  <td align='right'><input type='text' size='5' align='right' name='radius2_"+i+"' value='' onChange='task_info.area_"+i+".checked=true'></td>";
+    s = s+ "  <td align='right'><input type='text' size='3' align='right' name='bearing1_"+i+"' value='' onChange='task_info.area_"+i+".checked=true'></td>";
+    s = s+ "  <td align='right'><input type='text' size='3' align='right' name='bearing2_"+i+"' value='' onChange='task_info.area_"+i+".checked=true'></td>";
+    s = s+ "</tr>";
+
+    // write TP insert/delete line
+    s = s+ "<tr>";
+    s = s+ "  <td colspan='2'>&nbsp;</td>";
+    s = s+ "  <td><a href='javascript:parent.insert_task_tp("+(i+1)+")' class='action_link'>(insert)</a>&nbsp;";
+    s = s +      "<a href='javascript:parent.change_task_tp("+i+")' class='action_link'>(change)</a>&nbsp;";
+    s = s +      "<a href='javascript:parent.delete_tp("+i+")' class='action_link'>(delete)</a></td>";
+    if (i!=tp_count)
+      s = s+ "  <td align='right'><input type='text' size='4' align='right' name='dist_"+i+"' value='' class='textbox' onClick='task_info.trigraph_"+i+".focus()'></td>";
+    else
+      s = s+  "<td>&nbsp;</td>";
+    if (i!=tp_count)
+      s = s+ "  <td align='right'><input type='text' size='3' name='track_"+i+"' value='' class='textbox' onClick='task_info.trigraph_"+i+".focus()'></td>";
+    else
+      s = s+ "<td>&nbsp;</td>";
+    s = s+ "<td colspan='5'>&nbsp;</td>";
+    s = s+ "</tr>";
+
+  }
+if (tp_count>1) // write 'length' line
+  {
+    // write first insert line
+    s = s+ "<tr>";
+    s = s+ "  <td align='right' colspan='3'><b>Total task distance:</b></td>";
+    s = s+ "  <td align='right'><input type='text' size='4' align='right' name='length' value='' class='textbox'></td>";
+    s = s+ "  <td colspan='5'>&nbsp;</td>";
+    s = s+ "</tr>";
+  }
+s = s+ "</table>";
+
+s = s+ "<table border='0'>";
+s = s+ "<tr><td align='center'><input type='button' name='save' tabindex='1' value='Save' width='20' onClick='parent.save()'>&nbsp;";
+s = s+ "    <input type='button' value='Cancel' width='20' onClick='parent.close_window()'>";
+// s = s+ "    <input type='button' value='Set trigraph_2' width='20' onClick='parent.set_value(\"trigraph\",2,\"asd\")'>";
+// s = s+ "    <input type='button' value='insert tp(2)' width='20' onClick='parent.insert_task_tp(2)'>";
+s = s+ "</td></tr>";
+s = s+ "</table>";
+
+s = s+ "</form>";
+s = s+ "</body>";
+s = s+ "</html>";
+task_info_frame.document.open();
+task_info_frame.document.write(s);
+task_info_frame.document.close();
+
+} // end of function write_task_form()
+
+//***********************************************************************************************************//
+//**********   Code to handle turnpoint search function                                          ************//
+//***********************************************************************************************************//
+
+var search_tps_window;
+
+function igc_show_search_tps()
+  {
+    search_tps_window = null;
+    // task_window = window.open("task_info.html","task_info", "width=740,height=480,resizable=yes,scrollbars=yes");
+    search_tps_window = window.open("search_tps.html","search_tps", "width=440,height=580,resizable=yes,scrollbars=yes");
+    if (search_tps_window.opener==null) search_tps_window.opener = self;
+  }
+
+// search_tps(key) is called by search_tps.html when search button is clicked
+function search_tps(key)
+  {
+    return opener.search_tps(key);
+  }
+  
+//***********************************************************************************************************//
+//**********   Code to handle change, insert, delete                                             ************//
+//***********************************************************************************************************//
+
+var current_tp_num = 0; // current turnpoint/leg selected in task
+var tp_function = "";
+
+function select_tp(tp_index)
+  {
+    if (search_tps_window!=null)
+       {
+         search_tps_window.close();
+         search_tps_window = null;
+       }
+    if (tp_function=="change")
+      opener.change_task_tp(current_tp_num, tp_index);
+    else if (tp_function=="insert")
+      opener.insert_task_tp(current_tp_num, tp_index);
+    else
+      alert("IGCview error: task_info.html. select_tp has no tp_function.");
+  }
+  
+function change_task_tp(tp_num)
+  {
+    current_tp_num = tp_num;
+    tp_function = "change";
+    igc_show_search_tps();
+  }
+  
+function insert_task_tp(tp_num)
+  {
+    current_tp_num = tp_num;
+    tp_function = "insert";
+    igc_show_search_tps();
+  }
+  
+function delete_tp(tp_num)
+  {
+    opener.delete_task_tp(tp_num);
+  }
+  
+//-->
+</script>
+
+</head>
+
+<!-- get_task_info(): retrieves task data from IGCview applet -->
+<!-- write_task_form(): writes blank form (using tp_count) on task_info_frame -->
+<!-- load_task_info(): writes task data onto form on task_info_frame -->
+<frameset onLoad="get_task_info(); write_task_form(); load_task_info();">
+  <frame name="task_info_frame" frameborder="no" src="about:blank">
+</frameset>
+</html>

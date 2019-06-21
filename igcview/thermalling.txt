@@ -1,0 +1,57 @@
+(2) I'm not sure if you're going to calculate the wind speed from the log (i.e. drift in thermals) - if you are the way I did that in IGCview (in java) was to create a function thermalling(log_point_index) that returned true/false depending on whether it thought you were in a thermal or not at that point in the trace - the function I used was mainly to look ahead a certain period of time approximating to one turn in a thermal (30 seconds) and see how fast linearly you'd travelled in that time.  I used this function to create a list of 'thermal' objects derived from the track log including the index of their start and finish log points, and those objects could have additional attibutes like avg. climb rate. It's worth noting my thermal calculation effectively looks to see if you are circling, and does *not* care whether you are climbing or not - other software looks for a height gain of (say) 200 meters, but this has the effect of ignoring bad climb attempts.
+
+Here's my 'thermalling()' function (note distances are in Nautical miles, speeds in Knots, time in seconds)
+//**************************************************************************
+  static final int   CLIMBAVG = 30;        // averaging period (seconds) for thermalling()
+  static final int   CLIMBSPEED = 40;      // point-to-point speed (knots)  below this = thermalling
+
+  private boolean thermalling(int i)  // true if thermalling at log index i
+    {
+      int j = i;       // 'i' points to 'current' log point, 'j' will point to a log point approx 30 seconds later
+      float dist;     // actual distance travelled from points i to j
+      int time_taken;   // actual elapsed time taken between points i and j
+      boolean in_thermal;
+
+      // a bit of error detection for bad logs
+      if (latitude[i]==(float)0.0)
+        { System.out.println(name+": Bad record in thermalling at "+i+", record_count = "+record_count);
+          return false;
+        }
+      // scan forward at least 'CLIMBAVG' seconds
+      while (j < record_count && time[++j] - time[i] < IGCview.CLIMBAVG) {;}
+
+      // more error detection - keep skipping forward if j points to a bad log entry
+      if (latitude[j]==(float)0.0)
+        {
+          while (j < record_count && latitude[j++] == (float)0.0) {;}
+          j++;
+        }
+      // always return 'false' if you reach the end of the log
+      if (j == record_count) return false;
+
+      dist = IGCview.dec_to_dist(latitude[i], longitude[i], latitude[j], longitude[j]);
+      time_taken = time[j] - time[i];
+      in_thermal = (dist / time_taken * 3600 < IGCview.CLIMBSPEED);
+      return in_thermal;
+    }
+//**************************************************************************
+
+Here's what my 'thermal' object looked like:
+//**************************************************************************
+class Climb
+{
+  float lat1, long1, lat2, long2;  // boundaries of circling flight
+  int start_index, finish_index;   // first and last log point
+  TrackLog track_log;
+
+  Climb(TrackLog t) {  track_log = t;  } // init
+
+  int duration() { return track_log.time[finish_index] - track_log.time[start_index]; }
+
+  float rate() { return height() / duration() * (float) 0.6; }
+
+  float height() {  return track_log.altitude[finish_index]-track_log.altitude[start_index]; }
+}
+//**************************************************************************
+
+To calculate the wind, I *averaged* the drift velocity from every thermal start_index to finish_index.  This works ok, but you have to allow a user override (in my case I never remember needing to override it though).
