@@ -1,0 +1,19 @@
+#map {
+    height: 98vh;
+    border: 1px solid black;
+}
+
+#drop_area {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    width: 300px;
+    height: 300px;
+    border: 2px black solid;
+    z-index: 1000;
+
+}
+
+#drop_area.highlight {
+    border-color: purple;
+}

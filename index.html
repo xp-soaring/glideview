@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>glideview</title>
+<meta http-equiv="Content-Type" content="text/html;
+        charset=utf-8">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
+    <script type="text/javascript" src="js/leaflet-providers.js"></script>
+
+    <link rel="stylesheet" href="css/glideview.css"/>
+
+    <script src="js/glideview.js"></script>
+
+    <script>
+        var glide_view = new GlideView();
+    </script>
+</head>
+<body onload="glide_view.init()">
+    <div id="map"></div>
+    <div id="drop_area">
+            <form class="my-form">
+              <p>DROP IGC FILE HERE</p>
+              <input type="file" id="fileElem" multiple onchange="glide_view.handle_files(this.files)">
+              <label class="button" for="fileElem">Select some files</label>
+            </form>
+          </div>
+</body>
+</html>
