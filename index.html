@@ -16,9 +16,16 @@
 
     <link rel="stylesheet" href="css/glideview.css"/>
 
+    <script src="js/geo.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tp.js"></script>
+    <script src="js/task.js"></script>
+    <script src="js/tracklog.js"></script>
     <script src="js/glideview.js"></script>
 
     <script>
+        var config = new Config();
+        var geo = new Geo();
         var glide_view = new GlideView();
     </script>
 </head>
@@ -31,5 +38,7 @@
               <label class="button" for="fileElem">Select some files</label>
             </form>
           </div>
+        <div id="debug">
+        </div>
 </body>
 </html>

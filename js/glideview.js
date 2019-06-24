@@ -10,6 +10,8 @@ self.file_reader; // FileReader to read drag/dropped IGC files
 
 self.progress_bar;
 
+self.tracklogs = new Array();
+
 self.init = function()
 {
     this.drop_area = document.getElementById("drop_area");
@@ -61,8 +63,8 @@ function init_map()
     //get_legend().addTo(map);
 
     // Centre on Cambridge and add default layers
-    var cambridge = new L.LatLng(52.20038, 0.1197);
-    map.setView(cambridge, 15).addLayer(osm); //.addLayer(sites_layer).addLayer(links_layer);
+    var map_center = new L.LatLng(config.map_position.latitude, config.map_position.longitude);
+    map.setView(map_center, config.map_position.scale).addLayer(osm); //.addLayer(sites_layer).addLayer(links_layer);
 } // init_map()
 
 function init_file_reader()
@@ -140,6 +142,13 @@ function file_reader_error()
 function file_reader_load()
 {
     console.log("FileReader load completed");
+    var tracklog = new TrackLog(self.file_reader.result, self.tracklogs.length);
+    console.log("Loaded tracklog",tracklog.date)
+    document.getElementById("debug").innerHTML = tracklog.task.toHTML();
+    tracklog.task.draw(map);
+    tracklog.draw(map, {fitBounds: true});
+    self.tracklogs.push(tracklog);
 }
 
+    return self;
 } // GlideView

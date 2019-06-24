@@ -3,9 +3,18 @@
 // ************* Geometric Functions ***********************************************
 // *********************************************************************************
 
+function Geo() {
+
+    var self = this;
+
+    self.NMKM = 1.852;  // conversion factor Nm -> Km
+    self.NMMI = 1.150779;  // conversion factor Nm -> statute miles
+    self.FTM = 0.3048;  // conversion factor Feet -> Meters
+    self.KTMS = 0.5144;  // conversion factor Knot -> Meter/sec
+
 // Return distance in m between positions p1 and p2.
 // lat/longs in e.g. p1.lat etc
-function get_distance(p1, p2)
+this.get_distance=  function(p1, p2)
 {
     var R = 6371000; // Earth's mean radius in meter
     var dLat = rad(p2.lat - p1.lat);
@@ -19,7 +28,7 @@ function get_distance(p1, p2)
 };
 
 // return {north: .., south: .., east: .., west: .. } as bounds of array of position
-function get_box(position_array)
+this.get_box = function(position_array)
 {
     var box = { north: -90, south: 90, east: -180, west: 180 };
     for (var i=0; i<position_array.length; i++)
@@ -34,7 +43,7 @@ function get_box(position_array)
 
 // Return true is position is inside bounding polygon
 // http://stackoverflow.com/questions/13950062/checking-if-a-longitude-latitude-coordinate-resides-inside-a-complex-polygon-in
-function is_inside(position, bounds_path, box)
+this.is_inside = function(position, bounds_path, box)
 {
     //console.log('is_inside '+JSON.stringify(position)+', '+JSON.stringify(bounds_path)+', '+JSON.stringify(box));
 
@@ -93,7 +102,7 @@ function is_inside(position, bounds_path, box)
 
 
 // Bearing in degrees from point A -> B (each as {lat: , lng: })
-function get_bearing(A, B)
+this.get_bearing = function(A, B)
 {
     var a = { lat: rad(A.lat), lng: rad(A.lng) };
     var b = { lat: rad(B.lat), lng: rad(B.lng) };
@@ -106,7 +115,7 @@ function get_bearing(A, B)
 
 // Return true if bearing A lies between bearings B1 and B2
 // B2 must be CLOCKWISE from B1 i.e. larger if the target zone doesn't include 0
-function test_bearing_between(a, b1, b2)
+this.test_bearing_between = function(a, b1, b2)
 {
     if (b1 > b2) // zone includes 0
     {
@@ -116,7 +125,7 @@ function test_bearing_between(a, b1, b2)
 }
 
 // Normalize an angle to >=0 & <360
-function angle360(a)
+this.angle360 = function(a)
 {
     var positive = a >= 0;
 
@@ -126,7 +135,7 @@ function angle360(a)
 }
 
 // Bearing of 'outside' bisector of corner from B in line from A->B->C
-function get_bisector(A,B,C)
+this.get_bisector = function(A,B,C)
 {
     var track_in = get_bearing(A,B);
 
@@ -136,7 +145,7 @@ function get_bisector(A,B,C)
 }
 
 // As above except for angles instead of points
-function get_angle_bisector(track_in, track_out)
+this.get_angle_bisector = function(track_in, track_out)
 {
     var bisector = (track_in + track_out) / 2 + 90;
 
@@ -151,7 +160,7 @@ function get_angle_bisector(track_in, track_out)
 // Detect whether lines A->B and C->D intersect
 // return { intersect: true/false, position: LatLng (if lines do intersect), progress: 0..1 }
 // where 'progress' is how far the intersection is along the A->B path
-function get_intersect(line1, line2)
+this.get_intersect = function(line1, line2)
 {
     var A = line1[0],
         B = line1[1],
@@ -180,7 +189,7 @@ function get_intersect(line1, line2)
 
 // Perpendicular distance of point P {lat:, lng:} from a line [A,B]
 // where A,B are points
-function get_distance_from_line(P, line)
+this.get_distance_from_line = function(P, line)
 {
 
     // Prepare some values for the calculation
@@ -225,25 +234,67 @@ function get_distance_from_line(P, line)
     return Math.abs(d);
 }
 
+this.dec_to_dist = function(lat1, long1, lat2, long2)
+    {
+      var latR1, longR1, latR2, longR2;
+      if (lat1 == lat2 && long1 == long2) return 0.0;
+      latR1 = lat1 * Math.PI / 180;
+      longR1 = long1 * Math.PI / 180;
+      latR2 = lat2 * Math.PI / 180;
+      longR2 = long2 * Math.PI / 180;
+      return (Math.acos(Math.sin(latR1) * Math.sin(latR2) +
+                               Math.cos(latR1) * Math.cos(latR2) * Math.cos(longR1-longR2)) *
+                     60.04042835 * 180 / Math.PI);
+    }
+
+  // track angle between two lat/longs in degrees, bearing from lat1,long1 -> lat2,long2
+
+this.dec_to_track = function(lat1, long1, lat2, long2)
+    {
+      var offset = 0.0;
+      if (lat1 == lat2 && long1 == long2) return 0.0;
+      offset = (Math.atan( this.dec_to_dist(lat2, long1, lat2, long2) /
+                                this.dec_to_dist(lat1, long1, lat2, long1)) * 180 / Math.PI);
+      if (lat2 > lat1)
+        if (long2 > long1) return offset;
+        else return 360.0 - offset;
+      else
+        if (long2 > long1) return 180.0 - offset;
+        else return 180.0 + offset;
+    }
+
 //*********************************************************************************************
 //*************** CONVERSION FUNCTIONS, E.G. meters to nautical miles *************************
 //*********************************************************************************************
 
 // degrees to radians
-function rad(x) {
+this.rad = function(x) {
       return x * Math.PI / 180;
-};
+}
 
 // meters to nautical miles
-function nm(x)
+this.nm = function(x)
 {
         return x * 0.000539956803;
 }
 
 // meters to statute miles
-function miles(x)
+this.miles = function(x)
 {
         return x * 0.000621371;
 }
 
+this.decimal_latlong = function(degs, mins, EWNS)
+{
+    var deg = parseFloat(degs);
+    var min = parseFloat(mins);
+    if ((EWNS == 'W') || (EWNS == 'S'))
+      return -(deg + (min / 60));
+    else
+      return (deg + (min / 60));
+}
+
+return self;
+
+} // Geo
 
