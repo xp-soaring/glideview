@@ -3,6 +3,17 @@
     border: 1px solid black;
 }
 
+#baro {
+    height: 80vh;
+    width: 100%;
+    border: 1px solid black;
+    display: hidden;
+}
+
+#task {
+    width: 100%;
+}
+
 #drop_area {
     position: absolute;
     left: 100px;

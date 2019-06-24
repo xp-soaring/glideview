@@ -22,7 +22,7 @@ function TrackLog(filestring, log_index)
     // the user selects 'GPS altitude', then the contents of the arrays will be switched, and the 'gps_altitude'
     // flag will be set to 'true'
 
-    var position = new Array();
+    var position = new Array(); // array of { time (int seconds), latitude, longitude, altitude, alt_altitude}
 
     var GPS_ALT = 0;
     var BARO_ALT = 1; // constants for GPS and BAROMETRIC altitude
@@ -83,6 +83,12 @@ function TrackLog(filestring, log_index)
     var last_tp = new TP();  // saves previous TP found in 'C' record, as we don't want the final one
 
     var day_offset = 0;
+
+    var time_begin;
+    var time_end; // start and end time (in seconds of day) of flight
+    // debug need to get sizes
+    var baro_width = 150;
+    var baro_height = 150;
 
     // switch between altitude[] and alt_altitude
   function set_altitude(alt_type)
@@ -267,7 +273,48 @@ function TrackLog(filestring, log_index)
         }
     }; // draw()
 
-    //calc_flight_data(); // initialize tracklog
+    self.draw_baro = function(div, draw_options)
+    {
+        console.log("drawing baro");
+        var canvas = document.createElement('CANVAS');
+        div.appendChild(canvas);
+        draw_time_alt(canvas.getContext('2d'));
+    }
+
+    function time_to_x(t)
+    {
+        return (t-time_begin) / (time_end - time_begin) * baro_width;
+    }
+
+    function alt_to_y(alt)
+    {
+        //debug max height hardcoded - should get from tracklog or config or draw call
+        return (1 - alt / 3000) * 150
+    }
+
+    function draw_time_alt(ctx)
+    {
+      var x1,x2,y1,y2;
+
+      time_begin = position[0].time; // time (in seconds of day) of start of tracklog
+
+      //debug - hardcoded duration of flight - need to pick up end time
+      time_end = time_begin + 5*3600;
+
+      ctx.beginPath()
+      var x = time_to_x(position[0].time);
+      var y = alt_to_y(position[0].altitude);
+      ctx.moveTo(x,y);
+      console.log("draw baro started at",x,y, position[0].altitude);
+      for (var i = 1; i < position.length; i++)
+        {
+          x = time_to_x(position[i].time);
+          y = alt_to_y(position[i].altitude);
+          ctx.moveTo(x,y);
+        }
+    }
+
+//calc_flight_data(); // initialize tracklog
 
     return self;
 }

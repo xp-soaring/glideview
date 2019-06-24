@@ -30,6 +30,11 @@
     </script>
 </head>
 <body onload="glide_view.init()">
+    <div id="commands">
+        <a href="#" onclick="glide_view.show_map('map')">map</a>
+        <a href="#" onclick="glide_view.show_baro('baro')">barograph</a>
+        <a href="#" onclick="glide_view.show_task('task')">task</a>
+    </div>
     <div id="map"></div>
     <div id="drop_area">
             <form class="my-form">
@@ -37,8 +42,9 @@
               <input type="file" id="fileElem" multiple onchange="glide_view.handle_files(this.files)">
               <label class="button" for="fileElem">Select some files</label>
             </form>
-          </div>
-        <div id="debug">
-        </div>
+    </div>
+    <div id="baro"></div>
+    <div id="task"></div>
+    <div id="debug"></div>
 </body>
 </html>

@@ -4,6 +4,10 @@ function GlideView()
 // Start GlideView object instantiated with "new GlideView()"
 let self = this;
 
+var map_div;
+var baro_div;
+var task_div;
+
 self.drop_area; // drop area DOM object
 
 self.file_reader; // FileReader to read drag/dropped IGC files
@@ -14,6 +18,10 @@ self.tracklogs = new Array();
 
 self.init = function()
 {
+    map_div = document.getElementById('map');
+    baro_div = document.getElementById('baro');
+    task_div = document.getElementById('task');
+
     this.drop_area = document.getElementById("drop_area");
 
     init_file_reader();
@@ -22,6 +30,56 @@ self.init = function()
 
     init_drop_area();
 
+}
+
+self.show_map = function(id)
+{
+    console.log('showing map',id);
+
+    if (baro_div)
+    {
+        baro_div.style.display = 'none';
+    }
+    if (task_div)
+    {
+        task_div.style.display = "none"
+    }
+    map_div = document.getElementById(id);
+    map_div.style.display = 'block';
+}
+
+self.show_baro = function(id)
+{
+    console.log('showing baro', id);
+
+    if (map_div)
+    {
+        map_div.style.display = 'none';
+    }
+    if (task_div)
+    {
+        task_div.style.display = "none"
+    }
+    baro_div = document.getElementById(id);
+    baro_div.style.display = 'block';
+    if (self.tracklogs.length > 0)
+    {
+        self.tracklogs[0].draw_baro(baro_div);
+    }
+}
+
+self.show_task = function(id)
+{
+    if (map_div)
+    {
+        map_div.style.display = 'none';
+    }
+    if (baro_div)
+    {
+        baro_div.style.display = "none"
+    }
+    task_div = document.getElementById(id);
+    task_div.style.display = 'block';
 }
 
 // Setup the map environment
