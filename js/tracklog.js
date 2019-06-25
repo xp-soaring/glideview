@@ -294,7 +294,6 @@ function TrackLog(filestring, log_index)
 
     function draw_time_alt(ctx)
     {
-      var x1,x2,y1,y2;
 
       time_begin = position[0].time; // time (in seconds of day) of start of tracklog
 
@@ -310,8 +309,10 @@ function TrackLog(filestring, log_index)
         {
           x = time_to_x(position[i].time);
           y = alt_to_y(position[i].altitude);
-          ctx.moveTo(x,y);
+          ctx.lineTo(x,y);
         }
+        ctx.strokeStyle = "red";
+ctx.stroke();
     }
 
 //calc_flight_data(); // initialize tracklog
